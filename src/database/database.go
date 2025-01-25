@@ -9,7 +9,7 @@ import (
 	"github.com/jackc/pgx/v5"
 )
 
-func Connect() {
+func Connect() (*pgx.Conn, error) {
 	connStr := fmt.Sprintf("postgres://%s:%s@%s:%s/%s",
 		os.Getenv("DATABASE_USER"),
 		os.Getenv("DATABASE_PASSWORD"),
@@ -28,4 +28,5 @@ func Connect() {
 	}
 
 	fmt.Println("Successfully connected to the database")
+	return conn, nil
 }

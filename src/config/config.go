@@ -17,10 +17,10 @@ var (
 )
 
 func LoadEnvs() {
-	var error error
+	var err error
 
-	if error = godotenv.Load(); error != nil {
-		log.Fatal(error)
+	if err = godotenv.Load(); err != nil {
+		log.Fatal(err)
 	}
 
 	DatabasePort = os.Getenv("DATABASE_PORT")
