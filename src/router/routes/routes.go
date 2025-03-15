@@ -27,6 +27,7 @@ func ConfigRoutes(r *mux.Router) *mux.Router {
 	routes := userRoutes
 	routes = append(routes, authRoutes...)
 	routes = append(routes, postRoutes...)
+	routes = append(routes, healthRoutes...)
 
 	for _, route := range routes {
 		if route.Protected {
