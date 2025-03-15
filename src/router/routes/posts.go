@@ -10,13 +10,13 @@ var postRoutes = []Route{
 		Uri:       "/posts",
 		Method:    http.MethodPost,
 		Function:  controllers.PostCreate,
-		Protected: false,
+		Protected: true,
 	},
 	{
-		Uri:       "/posts",
+		Uri:       "/posts-by-user",
 		Method:    http.MethodGet,
 		Function:  controllers.PostGetAllByUserId,
-		Protected: false,
+		Protected: true,
 	},
 	{
 		Uri:       "/posts/{id}",
@@ -28,12 +28,12 @@ var postRoutes = []Route{
 		Uri:       "/posts/{id}",
 		Method:    http.MethodPut,
 		Function:  controllers.PostUpdate,
-		Protected: false,
+		Protected: true,
 	},
 	{
 		Uri:       "/posts/{id}",
 		Method:    http.MethodDelete,
 		Function:  controllers.PostDelete,
-		Protected: false,
+		Protected: true,
 	},
 }

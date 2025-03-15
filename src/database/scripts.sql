@@ -14,7 +14,7 @@ CREATE TABLE users (
     updated_at TIMESTAMP NULL
 );
 
-DROP TABLE IF EXISTS posts
+DROP TABLE IF EXISTS posts;
 
 CREATE TABLE posts (
     id UUID PRIMARY KEY,
@@ -23,7 +23,7 @@ CREATE TABLE posts (
     user_id UUID NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMP NULL
-)
+);
 
 ALTER TABLE posts
 ADD CONSTRAINT fk_posts_user_id

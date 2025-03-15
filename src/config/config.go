@@ -14,6 +14,7 @@ var (
 	DatabaseName     = ""
 	DatabaseUser     = ""
 	DatabasePassword = ""
+	ApiSecret        = ""
 )
 
 func LoadEnvs() {
@@ -28,4 +29,5 @@ func LoadEnvs() {
 	DatabaseName = os.Getenv("DATABASE_NAME")
 	DatabaseUser = os.Getenv("DATABASE_USER")
 	DatabasePassword = os.Getenv("DATABASE_PASSWORD")
+	ApiSecret = os.Getenv("API_SECRET")
 }
