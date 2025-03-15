@@ -11,15 +11,8 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/go-playground/validator/v10"
 	"github.com/gorilla/mux"
 )
-
-var validate *validator.Validate
-
-func init() {
-	validate = validator.New()
-}
 
 func UserCreate(w http.ResponseWriter, r *http.Request) {
 	body, err := io.ReadAll(r.Body)
@@ -34,7 +27,8 @@ func UserCreate(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err := validate.Struct(user); err != nil {
+	err = Validate.Struct(user)
+	if err != nil {
 		responses.JsonResponse(w, http.StatusBadRequest, map[string]string{"error": fmt.Sprintf("Validation failed: %v", err)})
 		return
 	}
