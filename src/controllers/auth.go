@@ -8,22 +8,41 @@ import (
 	"api/src/responses"
 	"encoding/json"
 	"io"
+	"log"
 	"net/http"
 
 	"golang.org/x/crypto/bcrypt"
 )
 
+// AuthRequest represents the authentication request data
+// @Description Authentication request with email and password
+// @Schema AuthRequest
 type AuthRequest struct {
-	Email    string `json:"email" validate:"required,email"`
-	Password string `json:"password" validate:"required"`
+	Email    string `json:"email" validate:"required,email" example:"user@example.com"`
+	Password string `json:"password" validate:"required" example:"password123"`
 }
 
+// SignInRequest represents the registration request data
+// @Description Registration request with name, email, and password
+// @Schema SignInRequest
 type SignInRequest struct {
-	Name     string `json:"name" validate:"required"`
-	Email    string `json:"email" validate:"required,email"`
-	Password string `json:"password" validate:"required"`
+	Name     string `json:"name" validate:"required" example:"John Doe"`
+	Email    string `json:"email" validate:"required,email" example:"user@example.com"`
+	Password string `json:"password" validate:"required" example:"password123"`
 }
 
+// Login godoc
+// @Summary Login a user
+// @Description Authenticates a user and returns a JWT token
+// @Tags Authentication
+// @Accept json
+// @Produce json
+// @Param request body AuthRequest true "Login credentials"
+// @Success 200 "Returns authentication token"
+// @Failure 400 "Bad request"
+// @Failure 401 "Unauthorized"
+// @Failure 500 "Internal server error"
+// @Router /login [post]
 func Login(w http.ResponseWriter, r *http.Request) {
 	body, err := io.ReadAll(r.Body)
 	if err != nil {
@@ -62,10 +81,10 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		responses.JsonResponse(w, http.StatusUnauthorized, map[string]string{"error": "User or password is incorrect"})
 		return
 	}
-
+	log.Println("USER_PASSWORD:  ", user.Password)
 	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(authRequest.Password))
 	if err != nil {
-		responses.JsonResponse(w, http.StatusInternalServerError, map[string]string{"error": "User or password is incorrect"})
+		responses.JsonResponse(w, http.StatusUnauthorized, map[string]string{"error": "User or password is incorrect"})
 		return
 	}
 
@@ -78,6 +97,18 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	responses.JsonResponse(w, http.StatusOK, map[string]string{"token": token})
 }
 
+// SignIn godoc
+// @Summary Register a new user
+// @Description Creates a new user and returns a JWT token
+// @Tags Authentication
+// @Accept json
+// @Produce json
+// @Param request body SignInRequest true "Registration information"
+// @Success 201 "User created successfully and returns authentication token"
+// @Failure 400 "Bad request"
+// @Failure 409 "User already exists"
+// @Failure 500 "Internal server error"
+// @Router /sign-in [post]
 func SignIn(w http.ResponseWriter, r *http.Request) {
 	body, err := io.ReadAll(r.Body)
 	if err != nil {

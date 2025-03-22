@@ -57,7 +57,7 @@ func (repository users) FindById(id string) (*models.User, error) {
 
 func (repository users) FindByEmail(email string) (*models.User, error) {
 	var user models.User
-	err := repository.db.QueryRow(context.Background(), "SELECT id, name, email, created_at FROM users WHERE email = $1", email).Scan(&user.ID, &user.Name, &user.Email, &user.CreatedAt)
+	err := repository.db.QueryRow(context.Background(), "SELECT id, name, email, password, created_at FROM users WHERE email = $1", email).Scan(&user.ID, &user.Name, &user.Email, &user.Password, &user.CreatedAt)
 	if err != nil {
 		if err == pgx.ErrNoRows {
 			return nil, nil

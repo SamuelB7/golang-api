@@ -8,6 +8,15 @@ import (
 	"time"
 )
 
+// HealthCheck godoc
+// @Summary Health Check
+// @Description Get the health status of the application
+// @Tags healthcheck
+// @Accept json
+// @Produce json
+// @Success 200
+// @Failure 503
+// @Router /health [get]
 func HealthCheck(w http.ResponseWriter, r *http.Request) {
 	status := map[string]interface{}{
 		"status":    "UP",

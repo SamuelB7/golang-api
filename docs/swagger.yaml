@@ -1,0 +1,116 @@
+basePath: /api
+definitions:
+  controllers.AuthRequest:
+    description: Authentication request with email and password
+    properties:
+      email:
+        example: user@example.com
+        type: string
+      password:
+        example: password123
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  controllers.SignInRequest:
+    description: Registration request with name, email, and password
+    properties:
+      email:
+        example: user@example.com
+        type: string
+      name:
+        example: John Doe
+        type: string
+      password:
+        example: password123
+        type: string
+    required:
+    - email
+    - name
+    - password
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: belo.samuel@gmail.com
+    name: Samuel Belo
+  description: A simple social media API
+  termsOfService: http://swagger.io/terms/
+  title: DevBook API
+  version: "1.0"
+paths:
+  /health:
+    get:
+      consumes:
+      - application/json
+      description: Get the health status of the application
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "503":
+          description: Service Unavailable
+      summary: Health Check
+      tags:
+      - healthcheck
+  /login:
+    post:
+      consumes:
+      - application/json
+      description: Authenticates a user and returns a JWT token
+      parameters:
+      - description: Login credentials
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.AuthRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Returns authentication token
+        "400":
+          description: Bad request
+        "401":
+          description: Unauthorized
+        "500":
+          description: Internal server error
+      summary: Login a user
+      tags:
+      - Authentication
+  /sign-in:
+    post:
+      consumes:
+      - application/json
+      description: Creates a new user and returns a JWT token
+      parameters:
+      - description: Registration information
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.SignInRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: User created successfully and returns authentication token
+        "400":
+          description: Bad request
+        "409":
+          description: User already exists
+        "500":
+          description: Internal server error
+      summary: Register a new user
+      tags:
+      - Authentication
+securityDefinitions:
+  BearerAuth:
+    description: Type "Bearer" followed by a space and the JWT token.
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
