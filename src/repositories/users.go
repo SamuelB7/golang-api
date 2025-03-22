@@ -7,7 +7,6 @@ import (
 	"log"
 
 	"github.com/jackc/pgx/v5"
-	"golang.org/x/crypto/bcrypt"
 )
 
 type users struct {
@@ -19,11 +18,6 @@ func NewUsersRepository(db *pgx.Conn) *users {
 }
 
 func (repository users) Create(user models.User) (string, error) {
-	passwordHash, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
-	if err != nil {
-		return "", err
-	}
-	user.Password = string(passwordHash)
 	tx, err := repository.db.Begin(context.Background())
 	if err != nil {
 		log.Fatal(err)

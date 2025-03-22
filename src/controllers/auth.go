@@ -8,7 +8,6 @@ import (
 	"api/src/responses"
 	"encoding/json"
 	"io"
-	"log"
 	"net/http"
 
 	"golang.org/x/crypto/bcrypt"
@@ -81,8 +80,9 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		responses.JsonResponse(w, http.StatusUnauthorized, map[string]string{"error": "User or password is incorrect"})
 		return
 	}
-	log.Println("USER_PASSWORD:  ", user.Password)
+
 	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(authRequest.Password))
+
 	if err != nil {
 		responses.JsonResponse(w, http.StatusUnauthorized, map[string]string{"error": "User or password is incorrect"})
 		return
