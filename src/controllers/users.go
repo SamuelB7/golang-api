@@ -14,6 +14,18 @@ import (
 	"github.com/gorilla/mux"
 )
 
+// Users godoc
+// @Summary Create a new user
+// @Description Create a new user with name, email and password
+// @Tags Users
+// @Accept json
+// @Produce json
+// @Param request body models.User true "User data"
+// @Success 201 {object} map[string]interface{} "Returns user_id and success message"
+// @Failure 400 {object} map[string]string "Bad request"
+// @Failure 500 {object} map[string]string "Internal server error"
+// @Router /users [post]
+// @Security ApiKeyAuth
 func UserCreate(w http.ResponseWriter, r *http.Request) {
 	body, err := io.ReadAll(r.Body)
 	if err != nil {
@@ -61,6 +73,20 @@ func UserCreate(w http.ResponseWriter, r *http.Request) {
 	responses.JsonResponse(w, http.StatusCreated, map[string]interface{}{"message": "User created successfully", "user_id": userId})
 }
 
+// Users godoc
+// @Summary Get all users
+// @Description Get all users with pagination and filtering
+// @Tags Users
+// @Accept json
+// @Produce json
+// @Param limit query int false "Number of users to return (default 10)"
+// @Param page query int false "Page number (default 1)"
+// @Param name query string false "Filter by name"
+// @Param email query string false "Filter by email"
+// @Success 200 {array} models.User "List of users"
+// @Failure 500 {object} map[string]string "Internal server error"
+// @Router /users [get]
+// @Security ApiKeyAuth
 func UserGetAll(w http.ResponseWriter, r *http.Request) {
 	queryParams := r.URL.Query()
 
@@ -103,6 +129,18 @@ func UserGetAll(w http.ResponseWriter, r *http.Request) {
 	responses.JsonResponse(w, http.StatusOK, users)
 }
 
+// Users godoc
+// @Summary Get a user by ID
+// @Description Get the details of a specific user
+// @Tags Users
+// @Accept json
+// @Produce json
+// @Param id path string true "User ID"
+// @Success 200 {object} models.User "User details"
+// @Failure 404 {object} map[string]string "User not found"
+// @Failure 500 {object} map[string]string "Internal server error"
+// @Router /users/{id} [get]
+// @Security ApiKeyAuth
 func UserGetOne(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	id := params["id"]
@@ -128,6 +166,19 @@ func UserGetOne(w http.ResponseWriter, r *http.Request) {
 	responses.JsonResponse(w, http.StatusOK, user)
 }
 
+// Users godoc
+// @Summary Update a user
+// @Description Update a user with the provided fields
+// @Tags Users
+// @Accept json
+// @Produce json
+// @Param id path string true "User ID"
+// @Param request body map[string]interface{} true "Fields to update"
+// @Success 200 {object} models.User "Updated user"
+// @Failure 400 {object} map[string]string "Bad request"
+// @Failure 500 {object} map[string]string "Internal server error"
+// @Router /users/{id} [put]
+// @Security ApiKeyAuth
 func UserUpdate(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	id := params["id"]
@@ -154,6 +205,17 @@ func UserUpdate(w http.ResponseWriter, r *http.Request) {
 	responses.JsonResponse(w, http.StatusOK, updatedUser)
 }
 
+// Users godoc
+// @Summary Delete a user
+// @Description Delete a user by ID
+// @Tags Users
+// @Accept json
+// @Produce json
+// @Param id path string true "User ID"
+// @Success 200 {object} map[string]string "Success message and deleted user ID"
+// @Failure 500 {object} map[string]string "Internal server error"
+// @Router /users/{id} [delete]
+// @Security ApiKeyAuth
 func UserDelete(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	id := params["id"]

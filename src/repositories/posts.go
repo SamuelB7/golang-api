@@ -93,8 +93,11 @@ func (repository posts) FindManyByUserId(user_id string, limit int, offset int, 
 		argID++
 	}
 
-	query += fmt.Sprintf(" LIMIT $%d OFFSET $%d", argID, argID+1)
+	query += fmt.Sprintf(" ORDER BY created_at DESC LIMIT $%d OFFSET $%d", argID, argID+1)
 	args = append(args, limit, offset)
+
+	log.Printf("Query: %s", query)
+	log.Printf("Args: %v", args)
 
 	rows, err := repository.db.Query(context.Background(), query, args...)
 	if err != nil {
@@ -110,6 +113,15 @@ func (repository posts) FindManyByUserId(user_id string, limit int, offset int, 
 			return nil, err
 		}
 		posts = append(posts, post)
+	}
+
+	if err = rows.Err(); err != nil {
+		log.Printf("Error iterating rows: %v", err)
+		return nil, err
+	}
+
+	if posts == nil {
+		posts = []models.Posts{}
 	}
 
 	return posts, nil

@@ -1,13 +1,13 @@
-# Golang REST API
+# DevBook API
 
-This is a simple REST API built with Golang.
+A simple social media REST API built with Go (Golang) that allows users to create accounts, make posts, and interact with other users.
 
 ## Prerequisites
 
 - Docker
 - Docker Compose
 
-## How to Run the Project
+## Getting Started
 
 1. **Clone the repository:**
 
@@ -30,19 +30,30 @@ This is a simple REST API built with Golang.
    docker compose up
    ```
 
-   The API will start at port `8080`.
+   The API will be available at:
 
-## API Endpoints
+   `http://localhost:8080/api`
 
-The following endpoints are available:
+## API Documentation
 
-- **Create User:**
-  - **POST** `/users`
-- **Get All Users:**
-  - **GET** `/users`
-- **Get One User:**
-  - **GET** `/users/{id}`
-- **Update User:**
-  - **PUT** `/users/{id}`
-- **Delete User:**
-  - **DELETE** `/users/{id}`
+Swagger UI
+
+Access the interactive API documentation at:
+
+`http://localhost:8080/swagger/index.html`
+
+Postman/Insomnia
+
+To import the API specification into Postman or other API tools:
+
+`http://localhost:8080/swagger/doc.json`
+
+## Development
+
+Generate API Documentation
+
+After making changes to the API endpoints, regenerate the Swagger documentation:
+
+```sh
+ swag init
+```

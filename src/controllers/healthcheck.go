@@ -11,7 +11,7 @@ import (
 // HealthCheck godoc
 // @Summary Health Check
 // @Description Get the health status of the application
-// @Tags healthcheck
+// @Tags Health-check
 // @Accept json
 // @Produce json
 // @Success 200

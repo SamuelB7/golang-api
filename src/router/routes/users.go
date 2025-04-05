@@ -10,7 +10,7 @@ var userRoutes = []Route{
 		Uri:       "/users",
 		Method:    http.MethodPost,
 		Function:  controllers.UserCreate,
-		Protected: false,
+		Protected: true,
 	},
 	{
 		Uri:       "/users",
@@ -28,12 +28,12 @@ var userRoutes = []Route{
 		Uri:       "/users/{id}",
 		Method:    http.MethodPut,
 		Function:  controllers.UserUpdate,
-		Protected: false,
+		Protected: true,
 	},
 	{
 		Uri:       "/users/{id}",
 		Method:    http.MethodDelete,
 		Function:  controllers.UserDelete,
-		Protected: false,
+		Protected: true,
 	},
 }

@@ -22,10 +22,11 @@ import (
 // @host      localhost:8080
 // @BasePath  /api
 
-// @securityDefinitions.apikey BearerAuth
+// @securityDefinitions.apikey ApiKeyAuth
 // @in header
 // @name Authorization
-// @description Type "Bearer" followed by a space and the JWT token.
+// @description Bearer JWT token authentication, type "Bearer {token}"
+// @tokenUrl /login
 func main() {
 	config.LoadEnvs()
 	database.Connect()
