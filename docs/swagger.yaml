@@ -146,27 +146,12 @@ paths:
       responses:
         "201":
           description: Returns post_id and success message
-          schema:
-            additionalProperties: true
-            type: object
         "400":
           description: Bad request
-          schema:
-            additionalProperties:
-              type: string
-            type: object
         "401":
           description: Unauthorized
-          schema:
-            additionalProperties:
-              type: string
-            type: object
         "500":
           description: Internal server error
-          schema:
-            additionalProperties:
-              type: string
-            type: object
       security:
       - ApiKeyAuth: []
       summary: Create a new post
@@ -206,16 +191,8 @@ paths:
             type: array
         "401":
           description: Unauthorized
-          schema:
-            additionalProperties:
-              type: string
-            type: object
         "500":
           description: Internal server error
-          schema:
-            additionalProperties:
-              type: string
-            type: object
       security:
       - ApiKeyAuth: []
       summary: Get all posts by user ID
@@ -239,16 +216,8 @@ paths:
           description: No content
         "401":
           description: Unauthorized
-          schema:
-            additionalProperties:
-              type: string
-            type: object
         "500":
           description: Internal server error
-          schema:
-            additionalProperties:
-              type: string
-            type: object
       security:
       - ApiKeyAuth: []
       summary: Delete a post
@@ -273,10 +242,6 @@ paths:
             $ref: '#/definitions/models.Posts'
         "500":
           description: Internal server error
-          schema:
-            additionalProperties:
-              type: string
-            type: object
       summary: Get a post by ID
       tags:
       - Posts
@@ -295,8 +260,7 @@ paths:
         name: request
         required: true
         schema:
-          additionalProperties: true
-          type: object
+          $ref: '#/definitions/dto.PostCreateDTO'
       produces:
       - application/json
       responses:
@@ -306,22 +270,10 @@ paths:
             $ref: '#/definitions/models.Posts'
         "400":
           description: Bad request
-          schema:
-            additionalProperties:
-              type: string
-            type: object
         "401":
           description: Unauthorized
-          schema:
-            additionalProperties:
-              type: string
-            type: object
         "500":
           description: Internal server error
-          schema:
-            additionalProperties:
-              type: string
-            type: object
       security:
       - ApiKeyAuth: []
       summary: Update a post

@@ -10,6 +10,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"log"
 	"net/http"
 	"strconv"
 
@@ -23,10 +24,10 @@ import (
 // @Accept json
 // @Produce json
 // @Param request body dto.PostCreateDTO true "Post data"
-// @Success 201 {object} map[string]interface{} "Returns post_id and success message"
-// @Failure 400 {object} map[string]string "Bad request"
-// @Failure 401 {object} map[string]string "Unauthorized"
-// @Failure 500 {object} map[string]string "Internal server error"
+// @Success 201 "Returns post_id and success message"
+// @Failure 400 "Bad request"
+// @Failure 401 "Unauthorized"
+// @Failure 500 "Internal server error"
 // @Router /posts [post]
 // @Security ApiKeyAuth
 func PostCreate(w http.ResponseWriter, r *http.Request) {
@@ -88,8 +89,8 @@ func PostCreate(w http.ResponseWriter, r *http.Request) {
 // @Param title query string false "Filter by title"
 // @Param content query string false "Filter by content"
 // @Success 200 {array} models.Posts "List of posts"
-// @Failure 401 {object} map[string]string "Unauthorized"
-// @Failure 500 {object} map[string]string "Internal server error"
+// @Failure 401 "Unauthorized"
+// @Failure 500 "Internal server error"
 // @Router /posts-by-user [get]
 // @Security ApiKeyAuth
 func PostGetAllByUserId(w http.ResponseWriter, r *http.Request) {
@@ -131,6 +132,7 @@ func PostGetAllByUserId(w http.ResponseWriter, r *http.Request) {
 	repository := repositories.NewPostsRepository(db)
 	posts, err := repository.FindManyByUserId(userID, limit, offset, filters)
 	if err != nil {
+		log.Printf("Error fetching posts: %v", err)
 		responses.JsonResponse(w, http.StatusInternalServerError, map[string]string{"error": "Failed to fetch posts"})
 		return
 	}
@@ -145,7 +147,7 @@ func PostGetAllByUserId(w http.ResponseWriter, r *http.Request) {
 // @Produce json
 // @Param id path string true "Post ID"
 // @Success 200 {object} models.Posts "Post details"
-// @Failure 500 {object} map[string]string "Internal server error"
+// @Failure 500 "Internal server error"
 // @Router /posts/{id} [get]
 func PostGetOne(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
@@ -173,11 +175,11 @@ func PostGetOne(w http.ResponseWriter, r *http.Request) {
 // @Accept json
 // @Produce json
 // @Param id path string true "Post ID"
-// @Param request body map[string]interface{} true "Fields to update"
+// @Param request body dto.PostCreateDTO true "Fields to update" example({"title": "Updated Post Title", "content": "This is the updated content."})
 // @Success 200 {object} models.Posts "Updated post"
-// @Failure 400 {object} map[string]string "Bad request"
-// @Failure 401 {object} map[string]string "Unauthorized"
-// @Failure 500 {object} map[string]string "Internal server error"
+// @Failure 400 "Bad request"
+// @Failure 401 "Unauthorized"
+// @Failure 500 "Internal server error"
 // @Router /posts/{id} [put]
 // @Security ApiKeyAuth
 func PostUpdate(w http.ResponseWriter, r *http.Request) {
@@ -219,8 +221,8 @@ func PostUpdate(w http.ResponseWriter, r *http.Request) {
 // @Produce json
 // @Param id path string true "Post ID"
 // @Success 204 "No content"
-// @Failure 401 {object} map[string]string "Unauthorized"
-// @Failure 500 {object} map[string]string "Internal server error"
+// @Failure 401 "Unauthorized"
+// @Failure 500 "Internal server error"
 // @Router /posts/{id} [delete]
 // @Security ApiKeyAuth
 func PostDelete(w http.ResponseWriter, r *http.Request) {
