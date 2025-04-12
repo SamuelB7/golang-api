@@ -10,11 +10,11 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"log"
 	"net/http"
 	"strconv"
 
 	"github.com/gorilla/mux"
+	"github.com/rs/zerolog/log"
 )
 
 // Posts godoc
@@ -132,7 +132,7 @@ func PostGetAllByUserId(w http.ResponseWriter, r *http.Request) {
 	repository := repositories.NewPostsRepository(db)
 	posts, err := repository.FindManyByUserId(userID, limit, offset, filters)
 	if err != nil {
-		log.Printf("Error fetching posts: %v", err)
+		log.Error().Err(err).Msg("Failed to fetch posts")
 		responses.JsonResponse(w, http.StatusInternalServerError, map[string]string{"error": "Failed to fetch posts"})
 		return
 	}
